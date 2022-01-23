@@ -6,3 +6,4 @@ Official Amethyst Tools Mod github repo
 CURSE FORGE:
 https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod
 # RELEASES
+(23.01.2022) 1.18.1 v1.0: https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/files/3620555
