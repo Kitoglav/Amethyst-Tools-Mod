@@ -1,5 +1,6 @@
 # Amethyst Tools Mod
 Official Amethyst Tools Mod github repo
+
 CURSE FORGE:
 https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod
 # RELEASES
