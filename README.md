@@ -9,3 +9,5 @@ CURSE FORGE:
 https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod
 # RELEASES
 (23.01.2022) 1.18.1 v1.0: https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/files/3620555
+(25.01.2022) 1.18 v1.0: https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/download/3622974
+(25.01.2022) 1.17.1 v1.1: https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/download/3622998
