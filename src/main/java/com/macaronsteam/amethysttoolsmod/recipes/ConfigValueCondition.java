@@ -1,3 +1,7 @@
+/** 
+* Copyright © 2022 Kitoglav
+* Licensed under the Apache License, Version 2.0
+**/
 package com.macaronsteam.amethysttoolsmod.recipes;
 
 import java.util.stream.Collectors;
