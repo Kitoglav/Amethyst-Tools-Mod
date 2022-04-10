@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "configValue": "enableAmethystArrows",
+              "type": "amethysttoolsmod:config_value"
+            },
+            {
+              "configValue": "enableExtraArrows",
+              "type": "amethysttoolsmod:config_value"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+		"type": "amethysttoolsmod:crafting_special_amethysttippedarrow"
+      }
+    }
+  ]
+}

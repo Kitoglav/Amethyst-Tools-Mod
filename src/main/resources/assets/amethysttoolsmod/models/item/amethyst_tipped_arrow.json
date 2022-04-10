@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/amethyst_arrow",
+	"layer1": "amethysttoolsmod:items/amethyst_tipped_arrow_head"
+  }
+}

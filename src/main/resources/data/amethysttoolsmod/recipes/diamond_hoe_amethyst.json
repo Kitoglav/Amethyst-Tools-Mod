@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "configValue": "enableDiamond",
+          "type": "amethysttoolsmod:config_value"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing",
+        "base": {
+          "item": "minecraft:diamond_hoe"
+        },
+        "addition": {
+          "item": "amethysttoolsmod:amethyst_cluster"
+        },
+        "result": {
+          "item": "amethysttoolsmod:diamond_hoe_amethyst"
+        }
+      }
+    }
+  ]
+}

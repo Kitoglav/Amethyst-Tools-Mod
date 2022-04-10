@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "LSL",
+        "SDS",
+        "LSL"
+    ],
+    "key": {
+        "L": {
+            "item": "amethyst_shard"
+        },
+		"S": {
+            "item": "amethysttoolsmod:amethyst_dust"
+        },
+        "D": {
+            "item": "slime_ball"
+        }
+    },
+    "result": {
+        "item": "amethysttoolsmod:amethyst_cluster"
+    }
+}

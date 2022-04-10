@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "configValue": "enableDiamond",
+          "type": "amethysttoolsmod:config_value"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing",
+        "base": {
+          "item": "minecraft:diamond_boots"
+        },
+        "addition": {
+          "item": "amethysttoolsmod:amethyst_cluster_lv2"
+        },
+        "result": {
+          "item": "amethysttoolsmod:diamond_boots_amethyst"
+        }
+      }
+    }
+  ]
+}

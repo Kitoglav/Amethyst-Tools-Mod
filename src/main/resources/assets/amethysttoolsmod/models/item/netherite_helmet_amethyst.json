@@ -1,0 +1,7 @@
+
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/netherite_helmet_amethyst"
+  }
+}
