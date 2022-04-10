@@ -1,0 +1,88 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+version = '1.4.0'
+group = 'com.macaronsteam.amethysttoolsmod'
+archivesBaseName = 'amethysttoolsmod'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+minecraft {
+    mappings channel: 'official', version: '1.18.1'
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+			mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'       
+            property 'forge.logging.console.level', 'debug'          
+            args '--mod', 'amethysttoolsmod', '--all', '--output', file('src/generated/resources/')
+			environment 'target', 'fmluserdevdata'
+            mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+repositories {
+flatDir {
+      dir 'lib'
+	}
+}
+dependencies {
+	minecraft 'net.minecraftforge:forge:1.18.1-39.1.2'
+}
+jar {
+    manifest {	
+        attributes([
+                "Specification-Title"     : "amethysttoolsmod",
+                "Specification-Vendor"    : "macaronsteam",
+                "Specification-Version"   : "1.18.2-1.4.0",
+				"Implementation-Title"	  : "amethysttoolsmod",
+				"Implementation-Vendor"   : "macaronsteam",
+				"Implementation-Version"  : "1.18.2-1.4.0",
+				"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+jar.finalizedBy('reobfJar')
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
