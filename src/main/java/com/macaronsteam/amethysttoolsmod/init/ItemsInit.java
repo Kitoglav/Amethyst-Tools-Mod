@@ -7,8 +7,6 @@ package com.macaronsteam.amethysttoolsmod.init;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.apache.commons.compress.utils.Lists;
-
 import com.google.common.primitives.Booleans;
 import com.macaronsteam.amethysttoolsmod.AmethystToolsMod;
 import com.macaronsteam.amethysttoolsmod.config.AmethystToolsModConfig;
@@ -95,7 +93,7 @@ public class ItemsInit {
 	}
 
 	public static List<RegistryObject<Item>> registerAmethystEquipment() {
-		List<RegistryObject<Item>> toReturn = Lists.newArrayList();
+		List<RegistryObject<Item>> toReturn = new ArrayList<>();
 		ForgeRegistries.ITEMS.getValues().stream()
 				.filter(item -> item.getCreatorModId(item.getDefaultInstance()).equals("minecraft") && item.canBeDepleted() && AmethystToolsMod.isItemEnabled(item))
 				.forEach(item -> { toReturn.add(register(item.getRegistryName().getPath() + "_amethyst", () -> AmethystToolsMod.tryToCreate(item))); });
