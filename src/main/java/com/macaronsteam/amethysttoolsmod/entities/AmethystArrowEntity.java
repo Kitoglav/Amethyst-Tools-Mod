@@ -6,8 +6,7 @@ package com.macaronsteam.amethysttoolsmod.entities;
 
 import java.util.Collection;
 import java.util.Set;
-
-import org.apache.commons.compress.utils.Sets;
+import java.util.HashSet;
 
 import com.macaronsteam.amethysttoolsmod.config.AmethystToolsModConfig;
 import com.macaronsteam.amethysttoolsmod.init.EntitiesInit;
@@ -38,7 +37,7 @@ public class AmethystArrowEntity extends AbstractArrow {
 	private static final EntityDataAccessor<Integer> ID_EFFECT_COLOR = SynchedEntityData.defineId(Arrow.class, EntityDataSerializers.INT);
 	private static final byte EVENT_POTION_PUFF = 0;
 	private Potion potion = Potions.EMPTY;
-	private final Set<MobEffectInstance> effects = Sets.newHashSet();
+	private final Set<MobEffectInstance> effects = new HashSet<>();
 	private boolean fixedColor;
 
 	public AmethystArrowEntity(EntityType<? extends AmethystArrowEntity> type, Level level) {
