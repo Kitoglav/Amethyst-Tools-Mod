@@ -3,7 +3,7 @@ loaderVersion="[38,41)"
 license="Apache License 2.0"
 [[mods]]
 modId="amethysttoolsmod" 
-version="1.18.2-1.4.0" 
+version="1.18.2-1.4.2" 
 displayName="§5Amethyst Tools Mod"
 logoFile="amethysttoolsmod-logo.png"
 authors="§5Macarons Team (Kitoglav, Muffch)"

@@ -1,0 +1,17 @@
+{
+    "replace": false,
+	"values": [ 
+	{
+     "id": "amethysttoolsmod:amethyst_arrow",
+	 "required": false
+	},
+	{
+     "id": "amethysttoolsmod:amethyst_tipped_arrow",
+	 "required": false
+	 },
+	 {
+     "id": "amethysttoolsmod:amethyst_spectral_arrow",
+	 "required": false
+	 }
+	]
+  }

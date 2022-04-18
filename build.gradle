@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-version = '1.4.0'
+version = '1.4.2'
 group = 'com.macaronsteam.amethysttoolsmod'
 archivesBaseName = 'amethysttoolsmod'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -65,10 +65,10 @@ jar {
         attributes([
                 "Specification-Title"     : "amethysttoolsmod",
                 "Specification-Vendor"    : "macaronsteam",
-                "Specification-Version"   : "1.18.2-1.4.0",
+                "Specification-Version"   : "1.18.2-1.4.2",
 				"Implementation-Title"	  : "amethysttoolsmod",
 				"Implementation-Vendor"   : "macaronsteam",
-				"Implementation-Version"  : "1.18.2-1.4.0",
+				"Implementation-Version"  : "1.18.2-1.4.2",
 				"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

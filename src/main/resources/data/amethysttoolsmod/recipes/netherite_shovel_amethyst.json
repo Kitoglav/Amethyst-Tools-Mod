@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "configValue": "enableNetherite",
+          "type": "amethysttoolsmod:config_value"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing",
+        "base": {
+          "item": "minecraft:netherite_shovel"
+        },
+        "addition": {
+          "item": "amethysttoolsmod:amethyst_cluster"
+        },
+        "result": {
+          "item": "amethysttoolsmod:netherite_shovel_amethyst"
+        }
+      }
+    }
+  ]
+}
