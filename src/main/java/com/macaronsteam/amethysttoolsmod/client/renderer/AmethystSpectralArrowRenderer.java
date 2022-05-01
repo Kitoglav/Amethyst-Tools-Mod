@@ -4,7 +4,7 @@
 package com.macaronsteam.amethysttoolsmod.client.renderer;
 
 import com.macaronsteam.amethysttoolsmod.AmethystToolsMod;
-import com.macaronsteam.amethysttoolsmod.entities.AmethystSpectralArrowEntity;
+import com.macaronsteam.amethysttoolsmod.entity.AmethystSpectralArrowEntity;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,6 @@ public class AmethystSpectralArrowRenderer extends ArrowRenderer<AmethystSpectra
 
   @Override
   public ResourceLocation getTextureLocation(AmethystSpectralArrowEntity entity) {
-    return new ResourceLocation(AmethystToolsMod.MODID,
-        "textures/models/amethyst_spectral_arrow.png");
+    return new ResourceLocation(AmethystToolsMod.MODID, "textures/models/amethyst_spectral_arrow.png");
   }
 }

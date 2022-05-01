@@ -3,13 +3,14 @@ loaderVersion="[38,41)"
 license="Apache License 2.0"
 [[mods]]
 modId="amethysttoolsmod" 
-version="1.18.2-1.4.2" 
+version="1.18.2-1.4.3" 
 displayName="§5Amethyst Tools Mod"
 logoFile="amethysttoolsmod-logo.png"
 authors="§5Macarons Team (Kitoglav, Muffch)"
 description="Use amethyst to upgrade your equipment!"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod"
 issueURL="https://github.com/Kitoglav/Amethyst-Tools-Mod/issues"
+updateJSONURL="https://pastebin.com/raw/g8rHZeHD"
 [[dependencies.amethysttoolsmod]]
     modId="forge"
     mandatory=true

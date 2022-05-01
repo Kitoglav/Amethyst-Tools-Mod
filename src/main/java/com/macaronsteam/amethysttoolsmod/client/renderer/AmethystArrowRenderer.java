@@ -4,7 +4,7 @@
 package com.macaronsteam.amethysttoolsmod.client.renderer;
 
 import com.macaronsteam.amethysttoolsmod.AmethystToolsMod;
-import com.macaronsteam.amethysttoolsmod.entities.AmethystArrowEntity;
+import com.macaronsteam.amethysttoolsmod.entity.AmethystArrowEntity;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;

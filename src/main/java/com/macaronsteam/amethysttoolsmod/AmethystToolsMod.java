@@ -4,15 +4,16 @@
 package com.macaronsteam.amethysttoolsmod;
 
 import java.lang.reflect.Constructor;
+import java.util.stream.Stream;
 import com.macaronsteam.amethysttoolsmod.client.renderer.AmethystArrowRenderer;
 import com.macaronsteam.amethysttoolsmod.client.renderer.AmethystSpectralArrowRenderer;
 import com.macaronsteam.amethysttoolsmod.config.AmethystToolsModConfig;
-import com.macaronsteam.amethysttoolsmod.entities.AmethystArrowEntity;
-import com.macaronsteam.amethysttoolsmod.entities.AmethystSpectralArrowEntity;
+import com.macaronsteam.amethysttoolsmod.entity.AmethystArrowEntity;
+import com.macaronsteam.amethysttoolsmod.entity.AmethystSpectralArrowEntity;
 import com.macaronsteam.amethysttoolsmod.init.EntitiesInit;
 import com.macaronsteam.amethysttoolsmod.init.ItemsInit;
 import com.macaronsteam.amethysttoolsmod.init.RecipesInit;
-import com.macaronsteam.amethysttoolsmod.recipes.ConfigValueCondition;
+import com.macaronsteam.amethysttoolsmod.recipe.ConfigValueCondition;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
@@ -37,6 +38,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -59,70 +61,49 @@ public class AmethystToolsMod {
 
   private void setupClient(FMLClientSetupEvent event) {
     event.enqueueWork(() -> {
-      if (EntitiesInit.ENTITY_AMETHYST_ARROW != null)
-        EntityRenderers.register(EntitiesInit.ENTITY_AMETHYST_ARROW.get(),
-            AmethystArrowRenderer::new);
-      if (EntitiesInit.ENTITY_AMETHYST_SPECTRAL_ARROW != null)
-        EntityRenderers.register(EntitiesInit.ENTITY_AMETHYST_SPECTRAL_ARROW.get(),
-            AmethystSpectralArrowRenderer::new);
+      EntitiesInit.ENTITY_AMETHYST_ARROW.ifPresent(entity -> EntityRenderers.register(entity, AmethystArrowRenderer::new));
+      EntitiesInit.ENTITY_AMETHYST_SPECTRAL_ARROW.ifPresent(entity -> EntityRenderers.register(entity, AmethystSpectralArrowRenderer::new));
     });
   }
 
   private void setup(FMLCommonSetupEvent event) {
     event.enqueueWork(() -> {
-      if (ItemsInit.ITEM_AMETHYST_ARROW != null)
-        DispenserBlock.registerBehavior(ItemsInit.ITEM_AMETHYST_ARROW.get(),
-            new AbstractProjectileDispenseBehavior() {
-              @Override
-              protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-                AmethystArrowEntity arrow =
-                    new AmethystArrowEntity(level, pos.x(), pos.y(), pos.z());
-                arrow.pickup = Pickup.ALLOWED;
-                return arrow;
-              }
-            });
-      if (ItemsInit.ITEM_AMETHYST_TIPPED_ARROW != null)
-        DispenserBlock.registerBehavior(ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.get(),
-            new AbstractProjectileDispenseBehavior() {
-              @Override
-              protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-                AmethystArrowEntity arrow =
-                    new AmethystArrowEntity(level, pos.x(), pos.y(), pos.z());
-                arrow.setEffectsFromItem(stack);
-                arrow.pickup = Pickup.ALLOWED;
-                return arrow;
-              }
-            });
-      if (ItemsInit.ITEM_AMETHYST_SPECTRAL_ARROW != null)
-        DispenserBlock.registerBehavior(ItemsInit.ITEM_AMETHYST_SPECTRAL_ARROW.get(),
-            new AbstractProjectileDispenseBehavior() {
-              @Override
-              protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
-                AmethystSpectralArrowEntity arrow =
-                    new AmethystSpectralArrowEntity(level, pos.x(), pos.y(), pos.z());
-                arrow.pickup = Pickup.ALLOWED;
-                return arrow;
-              }
-            });
+      ItemsInit.ITEM_AMETHYST_ARROW.ifPresent(item -> DispenserBlock.registerBehavior(item, new AbstractProjectileDispenseBehavior() {
+        @Override
+        protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
+          AmethystArrowEntity arrow = new AmethystArrowEntity(level, pos.x(), pos.y(), pos.z());
+          arrow.pickup = Pickup.ALLOWED;
+          return arrow;
+        }
+      }));
+      ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.ifPresent(item -> DispenserBlock.registerBehavior(item, new AbstractProjectileDispenseBehavior() {
+        @Override
+        protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
+          AmethystArrowEntity arrow = new AmethystArrowEntity(level, pos.x(), pos.y(), pos.z());
+          arrow.setEffectsFromItem(stack);
+          arrow.pickup = Pickup.ALLOWED;
+          return arrow;
+        }
+      }));
+      ItemsInit.ITEM_AMETHYST_SPECTRAL_ARROW.ifPresent(item -> DispenserBlock.registerBehavior(item, new AbstractProjectileDispenseBehavior() {
+        @Override
+        protected Projectile getProjectile(Level level, Position pos, ItemStack stack) {
+          AmethystSpectralArrowEntity arrow = new AmethystSpectralArrowEntity(level, pos.x(), pos.y(), pos.z());
+          arrow.pickup = Pickup.ALLOWED;
+          return arrow;
+        }
+      }));
     });
   }
 
   public static boolean isItemEnabled(Item input) {
-    if (input.getRegistryName().getPath().contains("iron")
-        && AmethystToolsModConfig.enableIron.get())
-      return true;
-    if (input.getRegistryName().getPath().contains("diamond")
-        && AmethystToolsModConfig.enableDiamond.get())
-      return true;
-    if (input.getRegistryName().getPath().contains("netherite")
-        && AmethystToolsModConfig.enableNetherite.get())
-      return true;
-    return false;
+    return (Stream.of("Iron", "Diamond", "Netherite")
+        .anyMatch(str -> input.getRegistryName().getPath().contains(str.toLowerCase()) && ((BooleanValue) AmethystToolsModConfig.spec.getValues().get("enable" + str)).get()));
   }
 
   private static Properties buildProperties(Item input) {
     Properties properties = new Properties().tab(input.getItemCategory());
-    if (input.getRegistryName().getPath().contains("netherite"))
+    if (input.isFireResistant())
       properties.fireResistant();
     return properties;
   }
@@ -136,13 +117,12 @@ public class AmethystToolsMod {
 
       @Override
       public float getSpeed() {
-        return tier.getSpeed() + AmethystToolsModConfig.durabilityMultiplier.get().floatValue();
+        return tier.getSpeed() + AmethystToolsModConfig.extraDigSpeed.get().floatValue();
       }
 
       @Override
       public float getAttackDamageBonus() {
-        return tier.getAttackDamageBonus()
-            + AmethystToolsModConfig.extraAttackDamage.get().floatValue();
+        return tier.getAttackDamageBonus() + AmethystToolsModConfig.extraAttackDamage.get().floatValue();
       }
 
       @Override
@@ -160,7 +140,6 @@ public class AmethystToolsMod {
         return tier.getRepairIngredient();
       }
     };
-
   }
 
   private static ArmorMaterial buildArmorMaterial(ArmorMaterial armorMaterial) {
@@ -173,8 +152,7 @@ public class AmethystToolsMod {
 
       @Override
       public float getKnockbackResistance() {
-        return armorMaterial.getKnockbackResistance()
-            + AmethystToolsModConfig.extraKR.get().floatValue();
+        return armorMaterial.getKnockbackResistance() + AmethystToolsModConfig.extraKR.get().floatValue();
       }
 
       @Override
@@ -184,14 +162,12 @@ public class AmethystToolsMod {
 
       @Override
       public int getEnchantmentValue() {
-        return armorMaterial.getEnchantmentValue()
-            + AmethystToolsModConfig.extraEnchantability.get();
+        return armorMaterial.getEnchantmentValue() + AmethystToolsModConfig.extraEnchantability.get();
       }
 
       @Override
       public int getDurabilityForSlot(EquipmentSlot slot) {
-        return (int) (armorMaterial.getDurabilityForSlot(slot)
-            * AmethystToolsModConfig.durabilityMultiplier.get());
+        return (int) (armorMaterial.getDurabilityForSlot(slot) * AmethystToolsModConfig.durabilityMultiplier.get());
       }
 
       @Override
@@ -201,9 +177,7 @@ public class AmethystToolsMod {
 
       @Override
       public float getToughness() {
-        return armorMaterial.getToughness() + (armorMaterial.getToughness() > 0.0F
-            ? AmethystToolsModConfig.extraToughness.get().floatValue()
-            : 0);
+        return armorMaterial.getToughness() + (armorMaterial.getToughness() > 0.0F ? AmethystToolsModConfig.extraToughness.get().floatValue() : 0);
       }
 
       @Override
@@ -215,27 +189,21 @@ public class AmethystToolsMod {
 
   public static Item tryToCreate(Item input) {
     if (input instanceof ArmorItem iof)
-      return new ArmorItem(AmethystToolsMod.buildArmorMaterial(iof.getMaterial()), iof.getSlot(),
-          AmethystToolsMod.buildProperties(input)) {
+      return new ArmorItem(AmethystToolsMod.buildArmorMaterial(iof.getMaterial()), iof.getSlot(), AmethystToolsMod.buildProperties(input)) {
         @Override
         @OnlyIn(Dist.CLIENT)
-        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot,
-            String type) {
-          return AmethystToolsMod.MODID + ":textures/models/" + this.getMaterial().getName()
-              + "_layer_" + (slot != EquipmentSlot.LEGS ? 1 : 2) + ".png";
+        public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+          return AmethystToolsMod.MODID + ":textures/models/" + this.getMaterial().getName() + "_layer_" + (slot != EquipmentSlot.LEGS ? 1 : 2) + ".png";
         }
       };
     else if (input instanceof TieredItem iof) {
-      Object par =
-          (iof instanceof DiggerItem iof1 ? iof1.getAttackDamage() : ((SwordItem) iof).getDamage())
-              - iof.getTier().getAttackDamageBonus();
+      Object attackDamage = (iof instanceof DiggerItem iof1 ? iof1.getAttackDamage() : ((SwordItem) iof).getDamage()) - iof.getTier().getAttackDamageBonus();
       Constructor constructor = input.getClass().getDeclaredConstructors()[0];
       if (constructor.getParameterTypes()[1] == int.class)
-        par = ((Float) par).intValue();
+        attackDamage = ((Float) attackDamage).intValue();
       try {
-        return (Item) constructor.newInstance(AmethystToolsMod.buildTier(iof.getTier()), par,
-            (float) input.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND)
-                .get(Attributes.ATTACK_SPEED).toArray(AttributeModifier[]::new)[0].getAmount(),
+        return (Item) constructor.newInstance(AmethystToolsMod.buildTier(iof.getTier()), attackDamage,
+            (float) input.getDefaultInstance().getAttributeModifiers(EquipmentSlot.MAINHAND).get(Attributes.ATTACK_SPEED).toArray(AttributeModifier[]::new)[0].getAmount(),
             AmethystToolsMod.buildProperties(input));
       } catch (Exception exception) {
         exception.printStackTrace();
