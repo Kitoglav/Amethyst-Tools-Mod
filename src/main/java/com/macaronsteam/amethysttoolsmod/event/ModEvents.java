@@ -13,11 +13,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@Mod.EventBusSubscriber(modid = AmethystToolsMod.MODID, bus = Bus.MOD)
+@Mod.EventBusSubscriber(modid = AmethystToolsMod.MODID, bus = Bus.MOD, value = Dist.CLIENT)
 public class ModEvents {
   @SubscribeEvent
   @OnlyIn(Dist.CLIENT)
   public static void onColorHandlerInit(ColorHandlerEvent.Item event) {
-    ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.ifPresent(item -> event.getItemColors().register((stack, layer) -> layer == 0 ? -1 : PotionUtils.getColor(stack), item));
+    ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.ifPresent(item -> event.getItemColors().register((itemstack, layer) -> layer == 0 ? -1 : PotionUtils.getColor(itemstack), item));
   }
 }

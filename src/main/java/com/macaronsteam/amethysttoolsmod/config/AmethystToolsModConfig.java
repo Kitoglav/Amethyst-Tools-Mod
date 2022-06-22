@@ -10,10 +10,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 public class AmethystToolsModConfig {
 
-  public static ForgeConfigSpec spec;
-  public static ForgeConfigSpec.BooleanValue enableIron, enableDiamond, enableNetherite, enableAmethystArrows, enableExtraArrows;
   public static ForgeConfigSpec.DoubleValue durabilityMultiplier, extraDigSpeed, extraAttackDamage, extraToughness, extraKR, arrowExtraDamage;
-  public static ForgeConfigSpec.IntValue extraEnchantability, extraArmor;
+  public static ForgeConfigSpec.BooleanValue enableIron, enableDiamond, enableNetherite, enableAmethystArrows, enableExtraArrows, enableAmethystTrident;
+  public static ForgeConfigSpec.IntValue extraEnchantability, extraArmor, glowingDuration;
+  public static ForgeConfigSpec spec;
   static {
     ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
     enableIron = builder.comment("Should be iron amethyst items created?").define("enableIron", true);
@@ -28,13 +28,14 @@ public class AmethystToolsModConfig {
     extraKR = builder.comment("Adds knockback resistance to amethyst items; 0.1 = +1 knockback resistance").defineInRange("extraKR", 0, 0, Double.MAX_VALUE);
     enableAmethystArrows = builder.comment("Should be any amethyst arrows created?").define("enableAmethystArrows", true);
     enableExtraArrows = builder.comment("Should be extra amethyst arrows created?").define("enableExtraArrows", true);
-    arrowExtraDamage = builder.comment("Adds damage to amethyst arrow").defineInRange("arrowExtraDamage", 3, 0, Double.MAX_VALUE);
+    arrowExtraDamage = builder.comment("Adds damage to amethyst arrow/trident").defineInRange("arrowExtraDamage", 3, 0, Double.MAX_VALUE);
+    glowingDuration = builder.comment("Duration of glowing from amethyst spectral arrows").defineInRange("glowingDuration", 300, 0, Integer.MAX_VALUE);
+    enableAmethystTrident = builder.comment("Should be amethyst trident created?").define("enableAmethystTrident", true);
     spec = builder.build();
   }
 
   public static void setup() {
-    CommentedFileConfig cfgData =
-        CommentedFileConfig.builder(FMLPaths.CONFIGDIR.get().resolve("amethysttoolsmod-common.toml")).sync().autosave().preserveInsertionOrder().writingMode(WritingMode.REPLACE).build();
+    CommentedFileConfig cfgData = CommentedFileConfig.builder(FMLPaths.CONFIGDIR.get().resolve("amethysttoolsmod-common.toml")).sync().autosave().preserveInsertionOrder().writingMode(WritingMode.REPLACE).build();
     cfgData.load();
     spec.setConfig(cfgData);
 

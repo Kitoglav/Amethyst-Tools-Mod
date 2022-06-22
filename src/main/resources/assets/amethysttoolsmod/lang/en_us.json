@@ -54,6 +54,8 @@
 	"item.amethysttoolsmod.amethyst_tipped_arrow.effect.turtle_master": "Amethyst Arrow of the Turtle Master",
 	"item.amethysttoolsmod.amethyst_tipped_arrow.effect.slow_falling": "Amethyst Arrow of Slow Falling",
 	"item.amethysttoolsmod.amethyst_spectral_arrow": "Amethyst Spectral Arrow",
+	"item.amethysttoolsmod.amethyst_trident": "Trident with Amethyst",
 	"entity.amethysttoolsmod.amethyst_arrow_entity": "Amethyst Arrow",
-	"entity.amethysttoolsmod.amethyst_spectral_arrow_entity": "Amethyst Spectral Arrow"
+	"entity.amethysttoolsmod.amethyst_spectral_arrow_entity": "Amethyst Spectral Arrow",
+	"entity.amethysttoolsmod.amethyst_trident_entity": "Trident with Amethyst"
 }
