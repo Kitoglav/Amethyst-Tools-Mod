@@ -20,39 +20,15 @@ public class TippedAmethystArrowRecipe extends CustomRecipe {
   }
 
   @Override
-  public boolean matches(CraftingContainer container, Level level) {
-    if (container.getWidth() == 3 && container.getHeight() == 3) {
-      for (int i = 0; i < container.getWidth(); ++i) {
-        for (int j = 0; j < container.getHeight(); ++j) {
-          ItemStack stack = container.getItem(i + j * container.getWidth());
-          if (stack.isEmpty()) {
-            return false;
-          }
-          if (i == 1 && j == 1) {
-            if (!stack.is(Items.LINGERING_POTION)) {
-              return false;
-            }
-          } else if (!stack.is(ItemsInit.ITEM_AMETHYST_ARROW.get())) {
-            return false;
-          }
-        }
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @Override
   public ItemStack assemble(CraftingContainer container) {
-    ItemStack stack = container.getItem(1 + container.getWidth());
-    if (!stack.is(Items.LINGERING_POTION)) {
+    ItemStack itemstack = container.getItem(1 + container.getWidth());
+    if (!itemstack.is(Items.LINGERING_POTION)) {
       return ItemStack.EMPTY;
     } else {
-      ItemStack stack1 = new ItemStack(ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.get(), 8);
-      PotionUtils.setPotion(stack1, PotionUtils.getPotion(stack));
-      PotionUtils.setCustomEffects(stack1, PotionUtils.getCustomEffects(stack));
-      return stack1;
+      ItemStack itemstack1 = new ItemStack(ItemsInit.ITEM_AMETHYST_TIPPED_ARROW.get(), 8);
+      PotionUtils.setPotion(itemstack1, PotionUtils.getPotion(itemstack));
+      PotionUtils.setCustomEffects(itemstack1, PotionUtils.getCustomEffects(itemstack));
+      return itemstack1;
     }
   }
 
@@ -64,5 +40,29 @@ public class TippedAmethystArrowRecipe extends CustomRecipe {
   @Override
   public RecipeSerializer<?> getSerializer() {
     return RecipesInit.RECIPE_AMETHYST_TIPPED_ARROW.get();
+  }
+
+  @Override
+  public boolean matches(CraftingContainer container, Level level) {
+    if (container.getWidth() == 3 && container.getHeight() == 3) {
+      for (int i = 0; i < container.getWidth(); ++i) {
+        for (int j = 0; j < container.getHeight(); ++j) {
+          ItemStack itemstack = container.getItem(i + j * container.getWidth());
+          if (itemstack.isEmpty()) {
+            return false;
+          }
+          if (i == 1 && j == 1) {
+            if (!itemstack.is(Items.LINGERING_POTION)) {
+              return false;
+            }
+          } else if (!itemstack.is(ItemsInit.ITEM_AMETHYST_ARROW.get())) {
+            return false;
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 }

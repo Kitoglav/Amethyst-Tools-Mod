@@ -55,6 +55,8 @@
 	"item.amethysttoolsmod.amethyst_tipped_arrow.effect.turtle_master": "Аметистовая стрела черепашьей мощи",
 	"item.amethysttoolsmod.amethyst_tipped_arrow.effect.slow_falling": "Аметистовая стрела плавного падения",
 	"item.amethysttoolsmod.amethyst_spectral_arrow": "Аметистовая спектральная стрела",
+	"item.amethysttoolsmod.amethyst_trident": "Трезубец с аметистом",
 	"entity.amethysttoolsmod.amethyst_arrow_entity": "Аметистовая стрела",
-	"entity.amethysttoolsmod.amethyst_spectral_arrow_entity": "Аметистовая спектральная стрела"
+	"entity.amethysttoolsmod.amethyst_spectral_arrow_entity": "Аметистовая спектральная стрела",
+	"entity.amethysttoolsmod.amethyst_trident_entity": "Трезубец с аметистом"
 }

@@ -4,19 +4,21 @@
 package com.macaronsteam.amethysttoolsmod.client.renderer;
 
 import com.macaronsteam.amethysttoolsmod.AmethystToolsMod;
-import com.macaronsteam.amethysttoolsmod.entity.AmethystArrowEntity;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 
-public class AmethystArrowRenderer extends ArrowRenderer<AmethystArrowEntity> {
+public class AmethystArrowRenderer<T extends AbstractArrow> extends ArrowRenderer<T> {
+  public final String texture;
 
-  public AmethystArrowRenderer(Context ctx) {
-    super(ctx);
+  public AmethystArrowRenderer(Context context, String path) {
+    super(context);
+    this.texture = path;
   }
 
   @Override
-  public ResourceLocation getTextureLocation(AmethystArrowEntity entity) {
-    return new ResourceLocation(AmethystToolsMod.MODID, "textures/models/amethyst_arrow.png");
+  public ResourceLocation getTextureLocation(T entity) {
+    return new ResourceLocation(AmethystToolsMod.MODID, texture);
   }
 }

@@ -1,0 +1,26 @@
+{
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {
+    "parent": "amethysttoolsmod:item/amethyst_trident_in_hand"
+  },
+  "perspectives": {	
+    "gui": {
+      "parent": "amethysttoolsmod:item/amethyst_trident_2d"
+    },
+    "ground": {
+      "parent": "amethysttoolsmod:item/amethyst_trident_2d"
+    },
+    "fixed": {
+      "parent": "amethysttoolsmod:item/amethyst_trident_2d"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1.0
+      },
+      "model": "amethysttoolsmod:item/amethyst_trident_throwing"
+    }
+  ]
+}

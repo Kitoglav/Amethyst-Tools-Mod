@@ -1,9 +1,9 @@
 modLoader="javafml"
-loaderVersion="[38,41)" 
+loaderVersion="[41,42)" 
 license="Apache License 2.0"
 [[mods]]
 modId="amethysttoolsmod" 
-version="1.18.2-1.4.3" 
+version="1.19-1.5.0" 
 displayName="§5Amethyst Tools Mod"
 logoFile="amethysttoolsmod-logo.png"
 authors="§5Macarons Team (Kitoglav, Muffch)"
@@ -14,12 +14,12 @@ updateJSONURL="https://pastebin.com/raw/g8rHZeHD"
 [[dependencies.amethysttoolsmod]]
     modId="forge"
     mandatory=true
-    versionRange="[38,41)"
+    versionRange="[41,42)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.amethysttoolsmod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18,1.19)"
+    versionRange="[1.19,)"
     ordering="NONE"
     side="BOTH"
