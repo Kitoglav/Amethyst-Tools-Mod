@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "amethysttoolsmod:diamond_helmet_amethyst"
+  },
+  "addition": {
+    "item": "netherite_ingot"
+  },
+  "result": {
+    "item": "amethysttoolsmod:netherite_helmet_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableDiamond"
+    },
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}

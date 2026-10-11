@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "amethysttoolsmod:diamond_hoe_amethyst"
+  },
+  "addition": {
+    "item": "netherite_ingot"
+  },
+  "result": {
+    "item": "amethysttoolsmod:netherite_hoe_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableDiamond"
+    },
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:iron_leggings"
+  },
+  "addition": {
+    "item": "amethysttoolsmod:amethyst_cluster_lv2"
+  },
+  "result": {
+    "item": "amethysttoolsmod:iron_leggings_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableIron"
+    }
+  ]
+}
