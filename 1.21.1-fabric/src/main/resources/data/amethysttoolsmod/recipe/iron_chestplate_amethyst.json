@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "base": {
+    "item": "minecraft:iron_chestplate"
+  },
+  "addition": {
+    "item": "amethysttoolsmod:amethyst_cluster_lv2"
+  },
+  "result": {
+    "id": "amethysttoolsmod:iron_chestplate_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableIron"
+    }
+  ]
+}

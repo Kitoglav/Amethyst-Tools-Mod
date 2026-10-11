@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "amethysttoolsmod",
+  "version": "${version}",
+  "name": "Amethyst Tools Mod",
+  "description": "Upgrade equipment with amethyst.",
+  "authors": [
+    "§5Kitoglav"
+  ],
+  "contributors": [
+    "MiyamiEthan"
+  ],
+  "license": "Apache-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.macaronsteam.amethysttoolsmod.AmethystToolsMod"
+    ],
+    "client": [
+      "com.macaronsteam.amethysttoolsmod.client.AmethystToolsClient"
+    ],
+    "jei_mod_plugin": [
+      "com.macaronsteam.amethysttoolsmod.compat.client.CompatJeiPlugin"
+    ]
+  },
+  "mixins": [
+    "amethysttoolsmod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}

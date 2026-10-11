@@ -1,0 +1,13 @@
+{
+  "type": "amethysttoolsmod:crafting_special_amethysttippedarrow",
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableAmethystArrows"
+    },
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableExtraArrows"
+    }
+  ]
+}

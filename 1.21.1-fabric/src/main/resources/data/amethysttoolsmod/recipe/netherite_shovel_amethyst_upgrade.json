@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "base": {
+    "item": "amethysttoolsmod:diamond_shovel_amethyst"
+  },
+  "addition": {
+    "item": "netherite_ingot"
+  },
+  "result": {
+    "id": "amethysttoolsmod:netherite_shovel_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableDiamond"
+    },
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}
