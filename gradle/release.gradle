@@ -1,0 +1,173 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import java.nio.charset.StandardCharsets
+import java.util.zip.ZipFile
+
+// Shared by independent builds: no plugin that would force ForgeGradle 5 onto Gradle 8.
+def releaseRoot = project.file('..')
+def releaseConfig = new Properties()
+new File(releaseRoot, 'release.properties').withInputStream { releaseConfig.load(it) }
+def loader = project.projectDir.name.split('-')[1]
+def minecraftVersion = project.minecraft_version.toString()
+def modVersion = project.version.toString()
+def releaseNumber = "${modVersion}-${loader}-${minecraftVersion}"
+def releaseName = "Amethyst Tools Mod ${modVersion} [${loader.capitalize()} ${minecraftVersion}]"
+def configuredUpdateUrl = releaseConfig.getProperty('update_json_url', '').trim()
+def updateUrl = configuredUpdateUrl ?: "https://raw.githubusercontent.com/Kitoglav/Amethyst-Tools-Mod/main/updates/${loader}-${minecraftVersion}.json"
+def changelogFile = new File(releaseRoot, "changelogs/${modVersion}.txt")
+def manifestFile = layout.buildDirectory.file('release/manifest.json')
+def artifactTaskName = loader == 'fabric' ? 'remapJar' : 'jar'
+def artifactTask = tasks.named(artifactTaskName)
+
+if (loader != 'fabric') {
+    tasks.named('processResources') {
+        inputs.property 'version', modVersion
+        inputs.property 'update_json_url', updateUrl
+        filesMatching(loader == 'forge' ? 'META-INF/mods.toml' : 'META-INF/neoforge.mods.toml') {
+            expand version: modVersion, update_json_url: updateUrl
+        }
+    }
+}
+
+def json = { value -> JsonOutput.prettyPrint(JsonOutput.toJson(value)) + '\n' }
+def readJson = { String url, Map headers = [:] ->
+    def connection = new URL(url).openConnection()
+    connection.connectTimeout = 30000
+    connection.readTimeout = 60000
+    connection.setRequestProperty('User-Agent', 'Kitoglav/Amethyst-Tools-Mod (release tooling)')
+    headers.each { key, value -> connection.setRequestProperty(key, value) }
+    try {
+        def status = connection.responseCode
+        if (status < 200 || status >= 300) {
+            throw new GradleException("Release preflight failed: HTTP ${status} from ${url}")
+        }
+        connection.inputStream.withCloseable { new JsonSlurper().parse(it, 'UTF-8') }
+    } finally {
+        connection.disconnect()
+    }
+}
+
+// Tokens only enter request headers; never command lines, metadata, or task inputs.
+def requireToken = { String name ->
+    def token = System.getenv(name)
+    if (!token?.trim()) throw new GradleException("Set ${name} in the environment; do not put tokens in Gradle properties.")
+    token
+}
+def upload = { String url, String tokenHeader, String token, String metadataPart, Map metadata, File artifact ->
+    def boundary = "amethyst-${UUID.randomUUID()}"
+    def connection = (HttpURLConnection) new URL(url).openConnection()
+    connection.requestMethod = 'POST'
+    connection.doOutput = true
+    connection.connectTimeout = 30000
+    connection.readTimeout = 120000
+    connection.setRequestProperty('User-Agent', 'Kitoglav/Amethyst-Tools-Mod (release tooling)')
+    connection.setRequestProperty(tokenHeader, token)
+    connection.setRequestProperty('Content-Type', "multipart/form-data; boundary=${boundary}")
+    connection.setChunkedStreamingMode(65536)
+    try {
+        connection.outputStream.withCloseable { output ->
+            def write = { String text -> output.write(text.getBytes(StandardCharsets.UTF_8)) }
+            write("--${boundary}\r\nContent-Disposition: form-data; name=\"${metadataPart}\"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n")
+            write(JsonOutput.toJson(metadata))
+            write("\r\n--${boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"${artifact.name}\"\r\nContent-Type: application/java-archive\r\n\r\n")
+            artifact.withInputStream { output << it }
+            write("\r\n--${boundary}--\r\n")
+        }
+        def status = connection.responseCode
+        if (status < 200 || status >= 300) {
+            // Do not log response bodies: gateways can reflect authentication headers.
+            throw new GradleException("Upload returned HTTP ${status}. Check the project dashboard before retrying.")
+        }
+        connection.inputStream.withCloseable { new JsonSlurper().parse(it, 'UTF-8') }
+    } finally {
+        connection.disconnect()
+    }
+}
+
+tasks.register('prepareRelease') {
+    group = 'release'
+    description = 'Builds/tests the module and writes upload metadata without network calls or credentials.'
+    dependsOn 'build'
+    if (loader == 'forge') dependsOn 'reobfJar'
+    doLast {
+        def artifact = artifactTask.get().archiveFile.get().asFile
+        def expectedName = "amethysttoolsmod-${loader}-${minecraftVersion}-${modVersion}.jar"
+        if (artifact.name != expectedName || !artifact.isFile()) {
+            throw new GradleException("Expected release JAR ${expectedName}, got ${artifact}")
+        }
+        if (!changelogFile.isFile()) throw new GradleException("Missing changelog: ${changelogFile}")
+        new ZipFile(artifact).withCloseable { zip ->
+            def metadataPath = loader == 'fabric' ? 'fabric.mod.json' : "META-INF/${loader == 'forge' ? 'mods.toml' : 'neoforge.mods.toml'}"
+            def entry = zip.getEntry(metadataPath)
+            if (entry == null) throw new GradleException("Missing ${metadataPath} in ${artifact.name}")
+            def metadata = zip.getInputStream(entry).withCloseable { it.getText('UTF-8') }
+            def embeddedVersion = loader == 'fabric' ? new JsonSlurper().parseText(metadata).version : (metadata =~ /(?m)^version="([^"]+)"/).with { it.find() ? it.group(1) : null }
+            if (embeddedVersion != modVersion) throw new GradleException("JAR metadata version ${embeddedVersion} != ${modVersion}")
+            if (metadata.contains('Muffch') || !metadata.contains('MiyamiEthan')) throw new GradleException('Incorrect release authors/credits')
+        }
+        def changelog = changelogFile.getText('UTF-8')
+        def curseRelations = [[slug: 'jei', projectID: 238222, type: 'optionalDependency']]
+        def modrinthDependencies = [[project_id: 'u6dRKJwZ', dependency_type: 'optional']]
+        if (loader == 'fabric') {
+            curseRelations.add([slug: 'fabric-api', projectID: 306612, type: 'requiredDependency'])
+            modrinthDependencies.add([project_id: 'P7dR8mSH', dependency_type: 'required'])
+        }
+        def metadata = [
+            artifact: artifact.absolutePath,
+            sha256: java.security.MessageDigest.getInstance('SHA-256').digest(artifact.bytes).encodeHex().toString(),
+            update_json_url: updateUrl,
+            curseforge: [changelog: changelog, changelogType: 'markdown', displayName: releaseName,
+                gameVersionNames: [minecraftVersion, loader == 'neoforge' ? 'NeoForge' : loader.capitalize(), 'Client', 'Server'],
+                releaseType: 'release', relations: [projects: curseRelations]],
+            modrinth: [name: releaseName, version_number: releaseNumber, changelog: changelog,
+                project_id: releaseConfig.getProperty('modrinth_project_id'), version_type: 'release',
+                game_versions: [minecraftVersion], loaders: [loader], featured: false,
+                environment: 'client_and_server', dependencies: modrinthDependencies,
+                file_parts: ['file'], primary_file: 'file']
+        ]
+        def target = manifestFile.get().asFile
+        target.parentFile.mkdirs()
+        target.setText(json(metadata), 'UTF-8')
+        logger.lifecycle("Prepared ${artifact.name}; metadata: ${target}")
+    }
+}
+
+['CurseForge', 'Modrinth'].each { String platform ->
+    tasks.register("publish${platform}") {
+        group = 'release'
+        description = "Uploads the release to ${platform}; -PreleaseDryRun=true only prints the prepared metadata location."
+        dependsOn 'prepareRelease'
+        doLast {
+            def manifest = new JsonSlurper().parse(manifestFile.get().asFile, 'UTF-8')
+            if (providers.gradleProperty('releaseDryRun').getOrElse('false').toBoolean()) {
+                logger.lifecycle("DRY RUN ${platform}: ${manifest.artifact}; no upload or authentication performed.")
+                return
+            }
+            def token = requireToken(platform == 'CurseForge' ? 'CURSEFORGE_TOKEN' : 'MODRINTH_TOKEN')
+            if (gradle.taskGraph.hasTask(tasks.named('publishMods').get())) {
+                requireToken('CURSEFORGE_TOKEN')
+                requireToken('MODRINTH_TOKEN')
+            }
+            def receipt = layout.buildDirectory.file("release/${platform.toLowerCase()}-${releaseNumber}.json").get().asFile
+            if (receipt.exists()) throw new GradleException("Upload receipt already exists: ${receipt}. Check the dashboard; refusing a duplicate upload.")
+            def updates = readJson(manifest.update_json_url)
+            if (updates.promos["${minecraftVersion}-latest"] != modVersion) throw new GradleException('Hosted update JSON must advertise this release before upload.')
+            def result
+            if (platform == 'Modrinth') {
+                def existing = readJson("https://api.modrinth.com/v2/project/${releaseConfig.getProperty('modrinth_project_id')}/version", [Authorization: token])
+                if (existing.any { it.version_number == releaseNumber }) throw new GradleException("Modrinth version ${releaseNumber} already exists; refusing duplicate upload.")
+                result = upload('https://api.modrinth.com/v2/version', 'Authorization', token, 'data', manifest.modrinth, new File(manifest.artifact))
+            } else {
+                result = upload("https://minecraft.curseforge.com/api/projects/${releaseConfig.getProperty('curseforge_project_id')}/upload-file", 'X-Api-Token', token, 'metadata', manifest.curseforge, new File(manifest.artifact))
+            }
+            receipt.setText(json([id: result.id, sha256: manifest.sha256, version: releaseNumber]), 'UTF-8')
+            logger.lifecycle("Published to ${platform}: ${result.id}. Receipt: ${receipt}")
+        }
+    }
+}
+
+tasks.register('publishMods') {
+    group = 'release'
+    description = 'Publishes to both platforms. Uploads are not atomic; use individual tasks to retry a failed platform.'
+    dependsOn 'publishCurseForge', 'publishModrinth'
+}

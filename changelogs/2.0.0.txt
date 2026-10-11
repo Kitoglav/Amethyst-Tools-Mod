@@ -1,0 +1,12 @@
+# Amethyst Tools Mod 2.0.0
+
+- Reworked the project into eight standalone modules: Forge/Fabric for Minecraft 1.18.2, 1.19.2 and 1.20.1; NeoForge/Fabric for Minecraft 1.21.1.
+- Refactored equipment registration and projectile behavior while retaining configurable upgrade values.
+- Added JSON compatibility modules for upgrading equipment from other mods without replacing the original item.
+- Added reloadable item overlay/replacement models and textures for compatibility upgrades.
+- Combined amethyst attribute bonuses with the base attributes in equipment tooltips.
+- Added optional JEI smithing integration that distinguishes upgraded and unupgraded items.
+- Bundled the default Simple Weapons compatibility pack in the three Forge modules.
+- Kept template-free smithing on 1.18.2/1.19.2 and template-based smithing on 1.20.1/1.21.1.
+
+Author: Kitoglav. Credits: MiyamiEthan.

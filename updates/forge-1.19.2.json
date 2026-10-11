@@ -1,0 +1,10 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/files",
+  "promos": {
+    "1.19.2-latest": "2.0.0",
+    "1.19.2-recommended": "2.0.0"
+  },
+  "1.19.2": {
+    "2.0.0": "Version 2.0.0: multi-loader refactor, JSON equipment compatibility, reloadable models, merged attribute tooltips and optional JEI smithing integration."
+  }
+}

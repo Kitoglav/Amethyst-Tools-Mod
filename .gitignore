@@ -1,0 +1,12 @@
+.gradle/
+**/.gradle/
+**/build/
+**/run/
+**/logs/
+*.class
+.idea/
+*.iml
+.toolchains/
+publish-tokens.local.ps1
+**/hs_err_pid*.log
+**/replay_pid*.log
