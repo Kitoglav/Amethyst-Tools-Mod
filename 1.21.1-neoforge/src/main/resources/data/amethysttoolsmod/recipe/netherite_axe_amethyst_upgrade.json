@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "base": {
+    "item": "amethysttoolsmod:diamond_axe_amethyst"
+  },
+  "addition": {
+    "item": "netherite_ingot"
+  },
+  "result": {
+    "id": "amethysttoolsmod:netherite_axe_amethyst"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "amethysttoolsmod:config_value",
+      "configValue": "enableDiamond"
+    },
+    {
+      "type": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}

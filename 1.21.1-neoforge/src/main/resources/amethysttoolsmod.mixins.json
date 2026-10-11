@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.macaronsteam.amethysttoolsmod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ArrowMixin",
+    "CompatItemStackMixin",
+    "CompatEnchantmentsMixin",
+    "SpectralArrowMixin",
+    "ThrownTridentMixin"
+  ],
+  "client": ["client.ThrownTridentRendererMixin"],
+  "injectors": {"defaultRequire": 1}
+}

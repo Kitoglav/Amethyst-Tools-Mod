@@ -1,0 +1,13 @@
+{
+  "type": "amethysttoolsmod:crafting_special_amethysttippedarrow",
+  "neoforge:conditions": [
+    {
+      "type": "amethysttoolsmod:config_value",
+      "configValue": "enableAmethystArrows"
+    },
+    {
+      "type": "amethysttoolsmod:config_value",
+      "configValue": "enableExtraArrows"
+    }
+  ]
+}

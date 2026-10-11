@@ -1,0 +1,54 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+version = project.mod_version
+apply from: '../gradle/release.gradle'
+group = 'com.macaronsteam.amethysttoolsmod'
+base.archivesName = 'amethysttoolsmod-neoforge-1.21.1'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+    runs {
+        client { client() }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+    }
+    mods {
+        amethysttoolsmod {
+            sourceSet(sourceSets.main)
+        }
+    }
+    unitTest {
+        enable()
+        testedMod = mods.amethysttoolsmod
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand version: project.version
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+}
+
+// JEI is optional for players; the full implementation is only a development runtime dependency.
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.3'
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.21.0.247'
+    runtimeOnly 'mezz.jei:jei-1.21.1-neoforge:19.21.0.247'
+}
+
+test {
+    useJUnitPlatform()
+}
