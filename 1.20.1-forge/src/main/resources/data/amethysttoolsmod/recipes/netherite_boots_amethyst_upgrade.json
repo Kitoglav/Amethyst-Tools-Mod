@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "configValue": "enableDiamond",
+              "type": "amethysttoolsmod:config_value"
+            },
+            {
+              "configValue": "enableNetherite",
+              "type": "amethysttoolsmod:config_value"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing_transform",
+        "template": {
+          "item": "minecraft:amethyst_shard"
+        },
+        "base": {
+          "item": "amethysttoolsmod:diamond_boots_amethyst"
+        },
+        "addition": {
+          "item": "netherite_ingot"
+        },
+        "result": {
+          "item": "amethysttoolsmod:netherite_boots_amethyst"
+        }
+      }
+    }
+  ]
+}

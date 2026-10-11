@@ -1,0 +1,123 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.0.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'maven-publish'
+
+repositories {
+    maven {
+        url = 'https://cursemaven.com/'
+        content { includeGroup 'curse.maven' }
+    }
+}
+
+version = project.mod_version
+apply from: '../gradle/release.gradle'
+group = 'com.macaronsteam.amethysttoolsmod'
+base.archivesName = 'amethysttoolsmod-forge-1.20.1'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    runs {
+        client {
+            workingDirectory project.file('run')
+            args '-mixin', 'amethysttoolsmod.mixins.json'
+            property 'mixin.env.disableRefMap', 'true' // Dev uses named mappings; the release JAR carries its generated refmap.
+            property 'forge.logging.console.level', 'info'
+            mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            args '-mixin', 'amethysttoolsmod.mixins.json'
+            property 'mixin.env.disableRefMap', 'true'
+            property 'forge.logging.console.level', 'info'
+            mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+            args '-mixin', 'amethysttoolsmod.mixins.json'
+            property 'mixin.env.disableRefMap', 'true'
+            property 'forge.logging.console.level', 'info'
+            args '--mod', 'amethysttoolsmod', '--all', '--output', file('src/generated/resources/')
+            environment 'target', 'fmluserdevdata'
+            mods {
+                amethysttoolsmod {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.0.0'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    runtimeOnly fg.deobf('curse.maven:simple-weapons-for-better-combat-681693:4843041')
+
+}
+
+mixin {
+    add sourceSets.main, 'amethysttoolsmod.refmap.json'
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "amethysttoolsmod",
+                "Specification-Vendor"    : "macaronsteam",
+                "Specification-Version"   : project.version.toString(),
+                "Implementation-Title"    : "amethysttoolsmod",
+                "Implementation-Vendor"   : "macaronsteam",
+                "Implementation-Version"  : project.version.toString(),
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "amethysttoolsmod.mixins.json"
+        ])
+    }
+}
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+}
+
+// JEI is optional for players; the full implementation is only a development runtime dependency.
+dependencies {
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-forge-api:15.20.0.106')
+    compileOnly fg.deobf('mezz.jei:jei-1.20.1-common-api:15.20.0.106')
+    runtimeOnly fg.deobf('mezz.jei:jei-1.20.1-forge:15.20.0.106')
+}
