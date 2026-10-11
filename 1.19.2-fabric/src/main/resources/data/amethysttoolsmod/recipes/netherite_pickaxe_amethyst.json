@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "minecraft:netherite_pickaxe"
+  },
+  "addition": {
+    "item": "amethysttoolsmod:amethyst_cluster"
+  },
+  "result": {
+    "item": "amethysttoolsmod:netherite_pickaxe_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}
