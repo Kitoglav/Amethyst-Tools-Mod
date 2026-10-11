@@ -1,0 +1,7 @@
+
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/diamond_boots_amethyst"
+  }
+}

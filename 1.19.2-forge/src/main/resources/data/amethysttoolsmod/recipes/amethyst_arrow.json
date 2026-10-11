@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "configValue": "enableAmethystArrows",
+          "type": "amethysttoolsmod:config_value"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "ingredients": [
+          {
+            "item": "amethysttoolsmod:amethyst_dust"
+          },
+          {
+            "item": "minecraft:arrow"
+          },
+          {
+            "item": "minecraft:arrow"
+          },
+          {
+            "item": "minecraft:arrow"
+          },
+          {
+            "item": "minecraft:arrow"
+          }
+        ],
+        "result": {
+          "item": "amethysttoolsmod:amethyst_arrow",
+		  "count": 4
+        }
+      }
+    }
+  ]
+}

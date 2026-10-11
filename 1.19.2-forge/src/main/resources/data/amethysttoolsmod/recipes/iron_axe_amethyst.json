@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "configValue": "enableIron",
+          "type": "amethysttoolsmod:config_value"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing",
+        "base": {
+          "item": "minecraft:iron_axe"
+        },
+        "addition": {
+          "item": "amethysttoolsmod:amethyst_cluster"
+        },
+        "result": {
+          "item": "amethysttoolsmod:iron_axe_amethyst"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "values": [
+            {
+              "configValue": "enableAmethystArrows",
+              "type": "amethysttoolsmod:config_value"
+            },
+            {
+              "configValue": "enableExtraArrows",
+              "type": "amethysttoolsmod:config_value"
+            }
+          ],
+          "type": "forge:and"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern": [
+          " # ",
+          "#G#",
+          " # "
+        ],
+        "key": {
+          "G": {
+            "item": "amethysttoolsmod:amethyst_arrow"
+          },
+          "#": {
+            "item": "minecraft:glowstone_dust"
+          }
+        },
+        "result": {
+          "item": "amethysttoolsmod:amethyst_spectral_arrow",
+		  "count": 2
+        }
+      }
+    }
+  ]
+}

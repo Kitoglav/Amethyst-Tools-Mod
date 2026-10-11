@@ -1,0 +1,12 @@
+{
+  "loader": "forge:separate-perspective",
+  "gui_light": "front",
+  "base": {
+    "parent": "amethysttoolsmod:item/amethyst_trident_in_hand_throwing"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "amethysttoolsmod:item/amethyst_trident_2d"
+    }
+  }
+}
