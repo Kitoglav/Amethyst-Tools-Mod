@@ -1,7 +1,0 @@
-
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "amethysttoolsmod:items/iron_pickaxe_amethyst"
-  }
-}

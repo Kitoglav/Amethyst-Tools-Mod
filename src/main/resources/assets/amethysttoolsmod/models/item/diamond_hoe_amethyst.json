@@ -1,7 +1,0 @@
-	
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "amethysttoolsmod:items/diamond_hoe_amethyst"
-  }
-}
