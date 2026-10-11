@@ -1,0 +1,6 @@
+{
+  "parent": "simple_weapons:custom/katana",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/iron_katana_amethyst"
+  }
+}

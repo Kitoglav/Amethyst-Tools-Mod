@@ -1,0 +1,6 @@
+{
+  "parent": "simple_weapons:custom/scythe2",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/iron_scythe_amethyst"
+  }
+}

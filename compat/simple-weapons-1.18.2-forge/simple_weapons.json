@@ -1,0 +1,141 @@
+{
+  "module_name": "Simple Weapons for Better Combat (1.18.2)",
+  "mods_required": [
+    "simple_weapons"
+  ],
+  "enabled": true,
+  "items": [
+    {
+      "id": "simple_weapons:diamond_sickle",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_sickle_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:diamond_dagger",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_dagger_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:diamond_scimitar",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_scimitar_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:diamond_greatsword",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_greatsword_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:diamond_halberd",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_halberd_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:diamond_katana",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_katana_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:diamond_fist",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_fist_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:diamond_scythe",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/diamond_scythe_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:iron_sickle",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_sickle_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:iron_dagger",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_dagger_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:iron_scimitar",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_scimitar_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:iron_greatsword",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_greatsword_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:iron_katana",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_katana_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:iron_fist",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_fist_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:iron_scythe",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_scythe_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:iron_spear",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/iron_spear_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:netherite_sickle",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_sickle_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:netherite_dagger",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_dagger_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:netherite_scimitar",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_scimitar_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:netherite_greatsword",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_greatsword_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:netherite_halberd",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_halberd_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:netherite_katana",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_katana_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    },
+    {
+      "id": "simple_weapons:netherite_fist",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_fist_amethyst",
+      "replace_model": true
+    },
+    {
+      "id": "simple_weapons:netherite_scythe",
+      "overlay_model": "amethysttoolsmod:item/simple_weapons/netherite_scythe_amethyst",
+      "replace_model": true,
+      "cluster_lv2": true
+    }
+  ]
+}

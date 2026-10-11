@@ -1,0 +1,6 @@
+{
+  "parent": "simple_weapons:custom/greatsword3",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/netherite_greatsword_amethyst"
+  }
+}

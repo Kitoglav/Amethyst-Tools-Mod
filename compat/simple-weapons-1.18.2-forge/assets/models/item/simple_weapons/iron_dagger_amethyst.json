@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/iron_dagger_amethyst"
+  }
+}

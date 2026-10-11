@@ -1,0 +1,6 @@
+{
+  "parent": "simple_weapons:custom/crowbill1",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/iron_sickle_amethyst"
+  }
+}

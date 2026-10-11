@@ -1,0 +1,6 @@
+{
+  "parent": "simple_weapons:custom/polearm",
+  "textures": {
+    "layer0": "amethysttoolsmod:items/simple_weapons/netherite_halberd_amethyst"
+  }
+}
