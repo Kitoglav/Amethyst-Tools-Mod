@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#G#",
+    " # "
+  ],
+  "key": {
+    "G": {
+      "item": "amethysttoolsmod:amethyst_arrow"
+    },
+    "#": {
+      "item": "minecraft:glowstone_dust"
+    }
+  },
+  "result": {
+    "item": "amethysttoolsmod:amethyst_spectral_arrow",
+    "count": 2
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableAmethystArrows"
+    },
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableExtraArrows"
+    }
+  ]
+}

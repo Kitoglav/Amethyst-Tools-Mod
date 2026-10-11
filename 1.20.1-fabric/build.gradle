@@ -1,0 +1,40 @@
+plugins {
+    id 'fabric-loom' version '1.6.12'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+apply from: '../gradle/release.gradle'
+group = 'com.macaronsteam.amethysttoolsmod'
+base.archivesName = 'amethysttoolsmod-fabric-1.20.1'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand version: project.version
+    }
+}
+
+repositories {
+    maven { url = 'https://maven.blamejared.com' }
+}
+
+// JEI is optional for players; the full implementation is only a development runtime dependency.
+dependencies {
+    modCompileOnly 'mezz.jei:jei-1.20.1-fabric-api:15.2.0.27'
+    modRuntimeOnly 'mezz.jei:jei-1.20.1-fabric:15.2.0.27'
+}

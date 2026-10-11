@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "base": {
+    "item": "minecraft:netherite_helmet"
+  },
+  "addition": {
+    "item": "amethysttoolsmod:amethyst_cluster_lv2"
+  },
+  "result": {
+    "item": "amethysttoolsmod:netherite_helmet_amethyst"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "amethysttoolsmod:config_value",
+      "configValue": "enableNetherite"
+    }
+  ]
+}
