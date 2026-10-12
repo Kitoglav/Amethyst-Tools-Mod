@@ -45,7 +45,11 @@ public final class CompatModules {
   }
 
   public static void reload() {
-    Path directory = directory();
+    reload(directory());
+  }
+
+  /** Loads a snapshot from the chosen directory; also used by compatibility tests. */
+  static void reload(Path directory) {
     Map<Item, Entry> loaded = new HashMap<>();
     try {
       Files.createDirectories(directory);

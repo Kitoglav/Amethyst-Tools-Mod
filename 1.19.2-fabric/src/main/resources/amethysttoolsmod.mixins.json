@@ -9,8 +9,18 @@
     "CompatItemStackMixin",
     "CompatEnchantmentsMixin",
     "SpectralArrowMixin",
-    "ThrownTridentMixin"
+    "ThrownTridentMixin",
+    "CompatSmithingMenuMixin"
   ],
-  "client": ["client.ThrownTridentRendererMixin", "client.CompatItemRendererMixin", "client.PackRepositoryAccessor", "client.ModelManagerAccessor"],
-  "injectors": {"defaultRequire": 1}
+  "client": [
+    "client.ThrownTridentRendererMixin",
+    "client.CompatItemRendererMixin",
+    "client.PackRepositoryAccessor",
+    "client.ModelManagerAccessor",
+    "client.CompatCreativeTabMixin",
+    "client.CompatCreativeSearchMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

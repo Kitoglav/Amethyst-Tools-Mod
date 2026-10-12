@@ -32,10 +32,7 @@ public final class CompatUpgrade extends UpgradeRecipe {
 
   @Override
   public ItemStack assemble(Container container) {
-    ItemStack result = container.getItem(0).copy();
-    result.setCount(1);
-    result.getOrCreateTag().putBoolean(UPGRADE_TAG, true);
-    return result;
+    return upgradedCopy(container.getItem(0));
   }
 
   @Override
@@ -52,6 +49,37 @@ public final class CompatUpgrade extends UpgradeRecipe {
   @Override
   public RecipeSerializer<?> getSerializer() {
     return RecipesInit.COMPAT_UPGRADE.get();
+  }
+
+  /** A fresh preview/result, shared by smithing, JEI and creative tabs. */
+  public static ItemStack upgradedCopy(ItemStack base) {
+    ItemStack result = base.copy();
+    result.setCount(1);
+    result.getOrCreateTag().putBoolean(UPGRADE_TAG, true);
+    return result;
+  }
+
+  /** Removes only our marker; the original item's data stays intact. */
+  public static ItemStack plainCopy(ItemStack stack) {
+    ItemStack result = stack.copy();
+    if (result.hasTag()) {
+      result.getTag().remove(UPGRADE_TAG);
+      if (result.getTag().isEmpty()) {
+        result.setTag(null);
+      }
+    }
+    return result;
+  }
+
+  /** A normal recipe may carry the upgrade only to another enabled compat item. */
+  public static ItemStack transfer(ItemStack base, ItemStack result) {
+    if (!isUpgraded(base) || result.isEmpty()) {
+      return result;
+    }
+    ItemStack transferred = CompatModules.find(result.getItem()) != null
+        ? upgradedCopy(result) : plainCopy(result);
+    transferred.setCount(result.getCount());
+    return transferred;
   }
 
   public static boolean isUpgraded(ItemStack stack) {

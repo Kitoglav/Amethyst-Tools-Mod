@@ -4,6 +4,8 @@ import com.macaronsteam.amethysttoolsmod.compat.CompatModules;
 import com.macaronsteam.amethysttoolsmod.compat.CompatUpgrade;
 import com.macaronsteam.amethysttoolsmod.config.AmethystToolsModConfig;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import com.macaronsteam.amethysttoolsmod.compat.CompatPresentation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemStack.class)
 public abstract class CompatItemStackMixin {
+  @Inject(method = "getHoverName", at = @At("RETURN"), cancellable = true)
+  private void amethysttoolsmod$upgradedName(CallbackInfoReturnable<Component> result) {
+    result.setReturnValue(CompatPresentation.name((ItemStack) (Object) this, result.getReturnValue()));
+  }
+
   @Inject(method = "getDestroySpeed", at = @At("RETURN"), cancellable = true)
   private void amethysttoolsmod$compatMiningSpeed(BlockState state, CallbackInfoReturnable<Float> result) {
     ItemStack stack = (ItemStack) (Object) this;

@@ -8,8 +8,14 @@
     "CompatItemStackMixin",
     "CompatEnchantmentsMixin",
     "SpectralArrowMixin",
-    "ThrownTridentMixin"
+    "ThrownTridentMixin",
+    "CompatSmithingMenuMixin"
   ],
-  "client": ["client.ThrownTridentRendererMixin"],
-  "injectors": {"defaultRequire": 1}
+  "client": [
+    "client.ThrownTridentRendererMixin",
+    "client.CompatCreativeTabMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

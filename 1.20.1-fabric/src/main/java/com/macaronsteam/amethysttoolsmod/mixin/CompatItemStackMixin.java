@@ -8,6 +8,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import com.macaronsteam.amethysttoolsmod.compat.CompatPresentation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,6 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /** Applies configured bonuses only to stacks marked by the compat smithing recipe. */
 @Mixin(ItemStack.class)
 public abstract class CompatItemStackMixin {
+  @Inject(method = "getHoverName", at = @At("RETURN"), cancellable = true)
+  private void amethysttoolsmod$upgradedName(CallbackInfoReturnable<Component> result) {
+    result.setReturnValue(CompatPresentation.name((ItemStack) (Object) this, result.getReturnValue()));
+  }
+
   @Shadow public abstract Item getItem();
 
   private boolean amethysttoolsmod$isCompatUpgraded() {
