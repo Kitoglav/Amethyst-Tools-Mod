@@ -1,0 +1,10 @@
+Version 2.0.1
+
+- Add localized Amethyst / Аметистовый prefixes to upgraded compatibility items without replacing custom names.
+- Add upgraded compatibility variants beside their ordinary items in creative inventory tabs.
+- Preserve amethyst upgrades through existing smithing recipes when the resulting item is enabled in the compatibility configuration.
+- Show follow-up smithing recipes in JEI with upgraded inputs and correctly transferred outputs, without offering repeated cluster upgrades.
+- Reapply destination-item bonuses once, preserving recipe-defined item data and preventing inherited boosted base stats on Minecraft 1.21.1.
+- Keep non-compatible smithing results free of amethyst markers and bonuses.
+- Add LilithsGrace to the credits.
+- Translate the README to English and document integration configuration and further upgrades.

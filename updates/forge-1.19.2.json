@@ -1,10 +1,11 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/amethyst-tools-mod/files",
   "promos": {
-    "1.19.2-latest": "2.0.0",
-    "1.19.2-recommended": "2.0.0"
+    "1.19.2-latest": "2.0.1",
+    "1.19.2-recommended": "2.0.1"
   },
   "1.19.2": {
-    "2.0.0": "Version 2.0.0: multi-loader refactor, JSON equipment compatibility, reloadable models, merged attribute tooltips and optional JEI smithing integration."
+    "2.0.0": "Version 2.0.0: multi-loader refactor, JSON equipment compatibility, reloadable models, merged attribute tooltips and optional JEI smithing integration.",
+    "2.0.1": "Version 2.0.1: localized upgraded item names, adjacent creative variants, compatibility-aware smithing upgrade transfer, destination stat recalculation, JEI follow-up smithing recipes and credits for LilithsGrace."
   }
 }
