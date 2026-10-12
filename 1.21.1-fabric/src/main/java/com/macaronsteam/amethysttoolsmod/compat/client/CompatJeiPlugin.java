@@ -27,10 +27,9 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -76,6 +75,7 @@ public final class CompatJeiPlugin implements IModPlugin {
     CompatModules.reload();
     upgrades.clear();
     upgradedUses.smithingDisplays.clear();
+    upgradedUses.followUpDisplays.clear();
     List<RecipeHolder<SmithingRecipe>> recipes = new ArrayList<>();
     for (CompatModules.Entry entry : entries()) {
       Item item = BuiltInRegistries.ITEM.get(entry.id());
@@ -102,6 +102,7 @@ public final class CompatJeiPlugin implements IModPlugin {
   public void onRuntimeAvailable(IJeiRuntime runtime) {
     upgradedUses.runtime = runtime;
     runtime.getIngredientManager().addIngredientsAtRuntime(VanillaTypes.ITEM_STACK, upgrades);
+    upgradedUses.loadSmithingDisplays();
   }
 
   private static List<CompatModules.Entry> entries() {
@@ -112,7 +113,58 @@ public final class CompatJeiPlugin implements IModPlugin {
   /** Only upgraded input focuses delegate to ordinary uses; output lookups stay subtype-specific. */
   private static final class UpgradedUses implements IRecipeManagerPlugin {
     private final Set<Object> smithingDisplays = new HashSet<>();
+    private final List<CompatSmithingDisplays.Display> followUpDisplays = new ArrayList<>();
     private IJeiRuntime runtime;
+
+    private void loadSmithingDisplays() {
+      followUpDisplays.clear();
+      if (Minecraft.getInstance().level == null) {
+        return;
+      }
+      runtime.getRecipeManager().createRecipeCategoryLookup()
+          .limitTypes(List.of(RecipeTypes.SMITHING)).get().findFirst()
+          .ifPresent(this::loadSmithingDisplays);
+      LOGGER.info("Amethyst Tools JEI: registered {} follow-up smithing displays", followUpDisplays.size());
+    }
+
+    private <T> void loadSmithingDisplays(IRecipeCategory<T> category) {
+      // Take a snapshot before adding projections, so our own callback cannot enumerate itself.
+      List<T> originals = runtime.getRecipeManager().createRecipeLookup(category.getRecipeType()).get().toList();
+      for (T original : originals) {
+        if (smithingDisplays.contains(original)) {
+          continue;
+        }
+        if (!(original instanceof RecipeHolder<?> holder) || !(holder.value() instanceof SmithingRecipe recipe)) {
+          continue;
+        }
+        ResourceLocation id = holder.id();
+        try {
+          List<List<ItemStack>> inputs = inputs(category, original);
+          followUpDisplays.addAll(CompatSmithingDisplays.create(id, recipe, inputs, Minecraft.getInstance().level));
+        } catch (RuntimeException exception) {
+          LOGGER.error("Amethyst Tools JEI: failed to build follow-up smithing displays for {}", id, exception);
+        }
+      }
+    }
+
+    private <T> List<List<ItemStack>> inputs(IRecipeCategory<T> category, T recipe) {
+      return runtime.getRecipeManager().createRecipeLayoutDrawable(category, recipe,
+          runtime.getJeiHelpers().getFocusFactory().createFocusGroup(List.of()))
+          .map(layout -> layout.getRecipeSlotsView().getSlotViews(RecipeIngredientRole.INPUT).stream()
+              .map(slot -> slot.getIngredients(VanillaTypes.ITEM_STACK).toList()).toList())
+          .orElseGet(List::of);
+    }
+
+    private List<CompatSmithingDisplays.Display> followUps(IFocus<?> focus) {
+      if (focus.getRole() != RecipeIngredientRole.INPUT && focus.getRole() != RecipeIngredientRole.OUTPUT) {
+        return List.of();
+      }
+      return focus.checkedCast(VanillaTypes.ITEM_STACK).map(typed -> {
+        ItemStack stack = typed.getTypedValue().getIngredient();
+        return followUpDisplays.stream().filter(display ->
+            display.matches(stack, focus.getRole() == RecipeIngredientRole.INPUT)).toList();
+      }).orElseGet(List::of);
+    }
 
     private Optional<IFocus<ItemStack>> plainInput(IFocus<?> focus) {
       if (runtime == null || focus.getRole() != RecipeIngredientRole.INPUT) {
@@ -122,9 +174,7 @@ public final class CompatJeiPlugin implements IModPlugin {
         ItemStack stack = typed.getTypedValue().getIngredient();
         return CompatUpgrade.isUpgraded(stack) && CompatModules.find(stack.getItem()) != null;
       }).map(typed -> {
-        ItemStack plain = typed.getTypedValue().getIngredient().copy();
-        CustomData.update(DataComponents.CUSTOM_DATA, plain,
-            tag -> tag.remove(CompatUpgrade.UPGRADE_TAG));
+        ItemStack plain = CompatUpgrade.plainCopy(typed.getTypedValue().getIngredient());
         return runtime.getJeiHelpers().getFocusFactory()
             .createFocus(RecipeIngredientRole.INPUT, VanillaTypes.ITEM_STACK, plain);
       });
@@ -138,12 +188,19 @@ public final class CompatJeiPlugin implements IModPlugin {
             .filter(category -> !getRecipes(category, focus).isEmpty())
             .forEach(category -> types.add(category.getRecipeType()));
       });
+      if (!followUps(focus).isEmpty() && !types.contains(RecipeTypes.SMITHING)) {
+        types.add(RecipeTypes.SMITHING);
+      }
       return types;
     }
 
     @Override
     public <T, V> List<T> getRecipes(IRecipeCategory<T> category, IFocus<V> focus) {
-      // The nested lookup uses an unmarked stack, so it cannot re-enter this branch.
+      if (category.getRecipeType().equals(RecipeTypes.SMITHING)) {
+        return followUps(focus).stream()
+            .<T>map(display -> category.getRecipeType().getRecipeClass().cast(display.recipe())).toList();
+      }
+      // Non-smithing uses still delegate to the ordinary item.
       return plainInput(focus).map(plain ->
           runtime.getRecipeManager().createRecipeLookup(category.getRecipeType())
               .limitFocus(List.of(plain)).get()
@@ -152,6 +209,10 @@ public final class CompatJeiPlugin implements IModPlugin {
 
     @Override
     public <T> List<T> getRecipes(IRecipeCategory<T> category) {
+      if (category.getRecipeType().equals(RecipeTypes.SMITHING)) {
+        return followUpDisplays.stream()
+            .<T>map(display -> category.getRecipeType().getRecipeClass().cast(display.recipe())).toList();
+      }
       return List.of();
     }
   }
