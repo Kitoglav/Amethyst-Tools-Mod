@@ -1,11 +1,12 @@
 {
   "homepage": "https://modrinth.com/mod/amethyst-tools-mod/versions",
   "promos": {
-    "1.20.1-latest": "2.0.1",
-    "1.20.1-recommended": "2.0.1"
+    "1.20.1-latest": "2.0.2",
+    "1.20.1-recommended": "2.0.2"
   },
   "1.20.1": {
     "2.0.0": "Version 2.0.0: multi-loader refactor, JSON equipment compatibility, reloadable models, merged attribute tooltips and optional JEI smithing integration.",
-    "2.0.1": "Version 2.0.1: localized upgraded item names, adjacent creative variants, compatibility-aware smithing upgrade transfer, destination stat recalculation, JEI follow-up smithing recipes and credits for LilithsGrace."
+    "2.0.1": "Version 2.0.1: localized upgraded item names, adjacent creative variants, compatibility-aware smithing upgrade transfer, destination stat recalculation, JEI follow-up smithing recipes and credits for LilithsGrace.",
+    "2.0.2": "Version 2.0.2: correct loader-specific slime-ball recipe tags, normalize built-in textures/item paths and remove duplicate textures/items assets; correct flat/3D trident model selection. Fix dark trident inventory icons with explicit front lighting on the flat model and keep the 3D hand/projectile renderer. Select the flat GUI model before vanilla determines lighting and depth."
   }
 }

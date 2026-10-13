@@ -18,6 +18,7 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 public final class AmethystToolsClient implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
+    TridentModels.register();
     CompatModels.register();
     CompatAssets.register();
     EntityRendererRegistry.register(EntitiesInit.ENTITY_AMETHYST_ARROW.get(),

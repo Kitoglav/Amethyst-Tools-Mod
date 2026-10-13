@@ -19,6 +19,7 @@ import net.minecraft.core.component.DataComponents;
 public final class AmethystToolsClient implements ClientModInitializer {
   @Override
   public void onInitializeClient() {
+    TridentModels.register();
     CompatModels.register();
     CompatAssets.register();
     EntityRendererRegistry.register(EntitiesInit.ENTITY_AMETHYST_ARROW.get(),

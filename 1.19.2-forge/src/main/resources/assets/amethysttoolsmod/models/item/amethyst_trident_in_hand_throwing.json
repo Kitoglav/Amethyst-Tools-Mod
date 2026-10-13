@@ -1,7 +1,7 @@
 {
   "parent": "builtin/entity",
   "textures": {
-    "particle": "amethysttoolsmod:items/amethyst_trident"
+    "particle": "amethysttoolsmod:item/amethyst_trident"
   },
   "display": {
     "thirdperson_righthand": {

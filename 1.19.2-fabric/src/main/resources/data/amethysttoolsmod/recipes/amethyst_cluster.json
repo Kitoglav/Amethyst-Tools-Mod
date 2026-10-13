@@ -13,7 +13,7 @@
       "item": "amethysttoolsmod:amethyst_dust"
     },
     "D": {
-      "item": "slime_ball"
+      "tag": "c:slime_balls"
     }
   },
   "result": {

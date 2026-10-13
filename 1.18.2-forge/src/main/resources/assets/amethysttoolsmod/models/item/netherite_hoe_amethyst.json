@@ -2,6 +2,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "amethysttoolsmod:items/netherite_hoe_amethyst"
+    "layer0": "amethysttoolsmod:item/netherite_hoe_amethyst"
   }
 }

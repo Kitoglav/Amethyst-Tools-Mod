@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "amethysttoolsmod:items/amethyst_trident"
-  }
+    "layer0": "amethysttoolsmod:item/amethyst_trident"
+  },
+  "gui_light": "front"
 }

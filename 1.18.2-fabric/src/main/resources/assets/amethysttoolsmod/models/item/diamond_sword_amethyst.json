@@ -2,6 +2,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "amethysttoolsmod:items/diamond_sword_amethyst"
+    "layer0": "amethysttoolsmod:item/diamond_sword_amethyst"
   }
 }

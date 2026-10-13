@@ -15,7 +15,9 @@
     "client.ThrownTridentRendererMixin",
     "client.CompatItemRendererMixin",
     "client.PackRepositoryAccessor",
-    "client.CompatCreativeTabMixin"
+    "client.CompatCreativeTabMixin",
+    "client.TridentItemRendererMixin",
+    "client.TridentGuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -13,7 +13,7 @@
       "item": "amethyst_block"
     },
     "%": {
-      "item": "slime_ball"
+      "tag": "c:slime_balls"
     }
   },
   "result": {

@@ -1,0 +1,14 @@
+Version 2.0.2 — multi-loader hotfix
+
+- Fix a critical CompatEnchantmentsMixin injection failure that prevented worlds and datapacks from loading on NeoForge 1.21.1. Fixes [#11](https://github.com/Kitoglav/Amethyst-Tools-Mod/issues/11).
+- Use NeoForge's stack-sensitive enchantability hook when calculating enchanting costs and selecting enchantments.
+- Preserve enchantability supplied by items and other mods, then add the configured amethyst bonus only to enabled upgraded compatibility items.
+- Render the amethyst trident as its flat item texture in the inventory while retaining its 3D model in hand on NeoForge 1.21.1.
+- Use vanilla base attack modifier IDs for the trident, restoring green total damage and attack speed tooltips on Minecraft 1.21.1.
+- Synchronize amethyst trident projectile identity to clients, including dispenser launches and saved entities, so thrown tridents use the correct texture.
+- Credit Kitoglav for correcting the NeoForge slime-ball ingredient tag: forge:slimeball -> c:slime_balls.
+- Audit trident models and recipe tags across all modules; add flat inventory rendering on Fabric and use loader-appropriate slime-ball tags.
+- Standardize built-in item texture paths to textures/item and remove duplicate textures/items assets; external compatibility packs keep their existing paths.
+- Fix Forge and Fabric 1.19.2 client startup crashes caused by the legacy creative-search injection. Add upgraded names and tags when the current search index is populated, without modifying recipe collections.
+- Fix dark Fabric trident inventory icons on 1.18.2, 1.19.2, 1.20.1 and 1.21.1: select the flat model before vanilla chooses GUI lighting and depth, and explicitly specify front lighting on that model.
+- Updated since 2.0.1: 1.18.2-forge, 1.18.2-fabric, 1.19.2-forge, 1.19.2-fabric, 1.20.1-forge, 1.20.1-fabric, 1.21.1-neoforge and 1.21.1-fabric. All eight modules now release as 2.0.2.

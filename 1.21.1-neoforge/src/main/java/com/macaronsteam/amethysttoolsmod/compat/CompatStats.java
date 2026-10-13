@@ -9,11 +9,18 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 /** Adds each bonus once, retaining the base modifier's identity, slot and tooltip styling. */
 public final class CompatStats {
   private CompatStats() {}
+
+  /** Keep the stack-sensitive value supplied by the item and other enchantment hooks. */
+  public static int enchantability(ItemStack stack, int original) {
+    return CompatUpgrade.isUpgraded(stack) && CompatModules.find(stack.getItem()) != null
+        ? original + AmethystToolsModConfig.EXTRA_ENCHANTABILITY.get() : original;
+  }
 
   public static ItemAttributeModifiers attributes(ItemAttributeModifiers original) {
     return attributes(original, 1.0);

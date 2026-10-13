@@ -6,6 +6,10 @@ import com.macaronsteam.amethysttoolsmod.config.AmethystToolsModConfig;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import com.macaronsteam.amethysttoolsmod.compat.client.CompatSmithingDisplays;
 import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
@@ -63,6 +67,54 @@ public class CompatUpgradeTest {
   public void plainNamesAreUnchanged() {
     Component name = literal("Greatsword");
     assertSame(name, CompatPresentation.name(new ItemStack(Items.DIAMOND_SWORD), name));
+  }
+
+  @Test
+  public void enchantabilityPreservesStackSensitiveBaseValue() {
+    ItemStack stack = CompatUpgrade.upgradedCopy(new ItemStack(Items.DIAMOND_SWORD));
+    int bonus = AmethystToolsModConfig.EXTRA_ENCHANTABILITY.get();
+    assertEquals(37 + bonus, CompatStats.enchantability(stack, 37));
+    assertEquals(bonus, CompatStats.enchantability(stack, 0));
+  }
+
+  @Test
+  public void enchantabilityLeavesPlainAndUnconfiguredItemsUnchanged() {
+    assertEquals(37, CompatStats.enchantability(new ItemStack(Items.DIAMOND_SWORD), 37));
+    assertEquals(37, CompatStats.enchantability(
+        CompatUpgrade.upgradedCopy(new ItemStack(Items.IRON_SWORD)), 37));
+  }
+
+  @Test
+  public void enchantingHelperLoadsAndBothEntryPointsAcceptUpgradedStacks() {
+    ItemStack stack = CompatUpgrade.upgradedCopy(new ItemStack(Items.DIAMOND_SWORD));
+    assertDoesNotThrow(() -> EnchantmentHelper.getEnchantmentCost(RandomSource.create(42), 2, 15, stack));
+    List<Integer> bounds = new java.util.ArrayList<>();
+    RandomSource random = new LegacyRandomSource(42) {
+      @Override
+      public int nextInt(int bound) {
+        bounds.add(bound);
+        return super.nextInt(bound);
+      }
+    };
+    assertTrue(EnchantmentHelper.selectEnchantment(random, stack, 30, Stream.empty()).isEmpty());
+    int bound = (stack.getEnchantmentValue() + AmethystToolsModConfig.EXTRA_ENCHANTABILITY.get()) / 4 + 1;
+    assertEquals(List.of(bound, bound), bounds);
+  }
+
+  @Test
+  public void enchantingCostUsesTheBonusForZeroBaseEnchantability() throws Exception {
+    Files.writeString(directory.resolve("zero.json"), """
+        {
+          "module_name": "Zero enchantability regression",
+          "items": [{"id": "minecraft:stick", "overlay_model": "amethysttoolsmod:item/test"}]
+        }
+        """);
+    CompatModules.reload(directory);
+    ItemStack plain = new ItemStack(Items.STICK);
+    assertEquals(0, plain.getEnchantmentValue());
+    assertEquals(0, EnchantmentHelper.getEnchantmentCost(RandomSource.create(42), 2, 15, plain));
+    ItemStack upgraded = CompatUpgrade.upgradedCopy(plain);
+    assertTrue(EnchantmentHelper.getEnchantmentCost(RandomSource.create(42), 2, 15, upgraded) > 0);
   }
 
   @Test

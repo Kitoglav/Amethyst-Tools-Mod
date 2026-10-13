@@ -1,22 +1,22 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "$%$",
-        "%#%",
-        "$%$"
-    ],
-    "key": {
-        "#": {
-            "item": "amethysttoolsmod:amethyst_cluster"
-        },
-        "$": {
-            "item": "amethyst_block"
-        },
-        "%": {
-            "tag": "forge:slimeballs"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$%$",
+    "%#%",
+    "$%$"
+  ],
+  "key": {
+    "#": {
+      "item": "amethysttoolsmod:amethyst_cluster"
     },
-    "result": {
-        "item": "amethysttoolsmod:amethyst_cluster_lv2"
+    "$": {
+      "item": "amethyst_block"
+    },
+    "%": {
+      "tag": "forge:slimeballs"
     }
+  },
+  "result": {
+    "item": "amethysttoolsmod:amethyst_cluster_lv2"
+  }
 }

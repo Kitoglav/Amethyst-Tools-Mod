@@ -25,7 +25,7 @@ public final class AmethystTridentItem extends TridentItem {
     super(new Properties().tab(CreativeModeTab.TAB_COMBAT).defaultDurability((int) (Items.TRIDENT.getMaxDamage() * DURABILITY_MULTIPLIER.get())));
     ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
     builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.0D + EXTRA_ATTACK_DAMAGE.get(), AttributeModifier.Operation.ADDITION));
-    builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.9F, AttributeModifier.Operation.ADDITION));
+    builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.9D, AttributeModifier.Operation.ADDITION));
     this.defaultModifiers = builder.build();
   }
 

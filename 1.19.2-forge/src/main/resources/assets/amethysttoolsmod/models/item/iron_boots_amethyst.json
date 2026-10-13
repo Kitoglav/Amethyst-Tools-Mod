@@ -2,6 +2,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "amethysttoolsmod:items/iron_boots_amethyst"
+    "layer0": "amethysttoolsmod:item/iron_boots_amethyst"
   }
 }

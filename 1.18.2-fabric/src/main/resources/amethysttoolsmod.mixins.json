@@ -18,7 +18,8 @@
     "client.PackRepositoryAccessor",
     "client.ModelManagerAccessor",
     "client.CompatCreativeTabMixin",
-    "client.CompatCreativeSearchMixin"
+    "client.CompatCreativeSearchMixin",
+    "client.TridentItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

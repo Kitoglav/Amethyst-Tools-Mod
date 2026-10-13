@@ -2,6 +2,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "amethysttoolsmod:items/diamond_chestplate_amethyst"
+    "layer0": "amethysttoolsmod:item/diamond_chestplate_amethyst"
   }
 }

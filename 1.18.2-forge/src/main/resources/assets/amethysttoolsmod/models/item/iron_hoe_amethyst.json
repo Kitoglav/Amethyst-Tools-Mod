@@ -2,6 +2,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "amethysttoolsmod:items/iron_hoe_amethyst"
+    "layer0": "amethysttoolsmod:item/iron_hoe_amethyst"
   }
 }
